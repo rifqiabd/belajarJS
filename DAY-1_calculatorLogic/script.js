@@ -18,45 +18,48 @@ So, its interesting to me and chatgpt give me how to write clean code too.
 */
 
 // Initiation UI Components
-const hist = document.getElementById("history");
-
+const history = document.getElementById("history");
 const display = document.getElementById("calcDisplay");
-
 const buttons = document.querySelectorAll(".num");
 
 // initiation for validation
-let calculated = false
+let calculated = false;
 
 // Looping for adding addEventListener into buttons, and adding logic there
 buttons.forEach((button) => {
-  button.addEventListener('click', () =>{
-    const value = button.getAttribute('data-value');
-    const action = button.getAttribute('data-action');
+  button.addEventListener("click", () => {
+    const value = button.getAttribute("data-value");
+    const action = button.getAttribute("data-action");
+    const operation = button.getAttribute("data-operation");
 
     // clear
-    if (action === "clear") {
-      display.value = "";
+    if (action == "clear") {
+      display.value += "";
     } 
-
-    // calculation 
-    else if (action === "calculate") {
-      try {
-        hist.value = display.value;
-        display.value = eval(display.value);
-      } catch (error) {
-        display.value = "Error";
-      }
+    
+    else if (["multiply", "divide", "add", "subtract"].includes(operation)) {
+      calculated = false;
+      console.log(calculated);
+      display.value += value;
+    }
+    
+    // calculation
+    else if (action == "calculate") {
+      display.value = eval(display.value);
       calculated = true;
+      console.log(calculated);
     }
 
     // number and operator button
     else {
       if (calculated) {
-        display.value = "";
-        calculated = false;
-      } 
-      display.value+=value;
+        display.value = '';
+      } else {
+        display.value += value;
+        history.value += value;
+      }
+      calculated = false;
+      console.log(calculated);
     }
   });
 });
-
